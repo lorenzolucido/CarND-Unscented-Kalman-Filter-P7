@@ -64,6 +64,9 @@ public:
   ///* Augmented state dimension
   int n_aug_;
 
+  ///* Number of generated sigma points
+  int n_sigma_;
+
   ///* Sigma point spreading parameter
   double lambda_;
 
@@ -79,6 +82,22 @@ public:
   virtual ~UKF();
 
   /**
+   * Generates augmented sigma points
+   */
+  MatrixXd AugmentedSigmaPoints();
+
+  /**
+   * Maps a sigma point to a predicted sigma point
+   */
+  VectorXd SigmaPointPredict(VectorXd sigmaPoint, double delta_t);
+  
+  /**
+   * Updates predicted sigma points
+   * @param delta_t Time between k and k+1 in s
+   */
+  void UpdatePredictedSigmaPoints(double delta_t);
+
+  /**
    * ProcessMeasurement
    * @param meas_package The latest measurement data of either radar or laser
    */
@@ -87,15 +106,20 @@ public:
   /**
    * Prediction Predicts sigma points, the state, and the state covariance
    * matrix
-   * @param delta_t Time between k and k+1 in s
    */
-  void Prediction(double delta_t);
+  void Prediction();
 
   /**
    * Updates the state and the state covariance matrix using a laser measurement
    * @param meas_package The measurement at k+1
    */
   void UpdateLidar(MeasurementPackage meas_package);
+
+  /**
+   * Maps a state to a radar measurement
+   * @param VectorXd state
+   */
+  VectorXd StateToRadarMeasurement(VectorXd state);
 
   /**
    * Updates the state and the state covariance matrix using a radar measurement
