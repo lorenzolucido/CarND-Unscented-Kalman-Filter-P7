@@ -90,7 +90,7 @@ public:
    * Maps a sigma point to a predicted sigma point
    */
   VectorXd SigmaPointPredict(VectorXd sigmaPoint, double delta_t);
-  
+
   /**
    * Updates predicted sigma points
    * @param delta_t Time between k and k+1 in s
